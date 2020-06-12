@@ -1,18 +1,28 @@
 library(tidyverse)
 
-path <- "C:/Users/*******/Desktop/ForR/sig/rent_cycle"
+path <- "C:/Users/torug/Desktop/ForR/sig/rent_cycle"
 setwd(path)
 
 test <- read.delim("test.tsv")
 train <- read.delim("train.tsv")
 sample <- read.csv("sample_submit1.csv",header = FALSE)
 
+
+#Correlation efficient
+train1 <- train[,c(-1,-2)]
+cor(train1)
+
+
 #===================
 #Liner regression
 #Create Model
-mod <- lm(cnt ~ temp, data=train)
+mod <- lm(cnt ~ temp+hr+season, data=train)
 
+#colnames(train)
+summary(mod)
+#Check which factor is significant
 
+summary(gmod)
 #Predict
 pred <- predict(mod, newdata = test) %>% data.frame
 
@@ -24,7 +34,7 @@ write.csv(sample, file="sample_submit.csv", row.names=F)
 #Before submitting Open Excel and delete the name of column
 
 #===================
-#Use "glm"
+#Use "glm"(Fitting Generalized Linear Models)
 #Create Model
 gmod <- glm(cnt ~ atemp+hum, data=train)
 
